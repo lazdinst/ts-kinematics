@@ -1,2 +1,3 @@
-export { default as degreesToRadians } from "./degreesToRadians";
-export { default as radiansToDegrees } from "./radiansToDegrees";
+export { degreesToRadians } from "./degreesToRadians";
+export { radiansToDegrees } from "./radiansToDegrees";
+export { areMatricesEqual } from "./areMatricesEqual";

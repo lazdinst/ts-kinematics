@@ -1,3 +1,4 @@
+import { Matrix } from "../definitions";
 import { roundToPrecision } from "./roundToPrecision";
 
 /**
@@ -6,9 +7,9 @@ import { roundToPrecision } from "./roundToPrecision";
  * This function performs matrix multiplication (dot product) on two matrices.
  * The number of columns in the first matrix must equal the number of rows in the second matrix.
  *
- * @param {number[][]} matrix1 - The first matrix (A).
- * @param {number[][]} matrix2 - The second matrix (B).
- * @returns {number[][]} - The resulting matrix from the dot product.
+ * @param {Matrix} matrix1 - The first matrix (A).
+ * @param {Matrix} matrix2 - The second matrix (B).
+ * @returns {Matrix} - The resulting matrix from the dot product.
  *
  * Example:
  * const matrix1 = [
@@ -22,10 +23,7 @@ import { roundToPrecision } from "./roundToPrecision";
  * const result = matrixDotProduct(matrix1, matrix2);
  * console.log(result); // [[19, 22], [43, 50]]
  */
-export function matrixDotProduct(
-  matrix1: number[][],
-  matrix2: number[][]
-): number[][] {
+export function matrixDotProduct(matrix1: Matrix, matrix2: Matrix): Matrix {
   // Validate that the matrices can be multiplied
   if (matrix1[0].length !== matrix2.length) {
     throw new Error(
@@ -34,7 +32,7 @@ export function matrixDotProduct(
   }
 
   // Initialize the result matrix with zeros
-  const result: number[][] = new Array(matrix1.length)
+  const result: Matrix = new Array(matrix1.length)
     .fill(0)
     .map(() => new Array(matrix2[0].length).fill(0));
 

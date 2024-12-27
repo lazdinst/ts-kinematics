@@ -1,0 +1,1 @@
+export { areMatricesEqual } from "./areMatricesEqual";
