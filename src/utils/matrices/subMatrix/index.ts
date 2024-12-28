@@ -1,0 +1,1 @@
+export { subMatrix } from "./subMatrix";

@@ -1,4 +1,4 @@
-import { Matrix } from "../../definitions";
+import { Matrix } from "../../../definitions";
 
 /**
  * Checks if two matrices are equal.

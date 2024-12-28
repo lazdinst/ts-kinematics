@@ -1,0 +1,1 @@
+export { rotateMatrixAroundAxis } from "./rotateMatrixAroundAxis";

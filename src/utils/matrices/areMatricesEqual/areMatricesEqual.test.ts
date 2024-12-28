@@ -1,4 +1,4 @@
-import { Matrix } from "../../definitions";
+import { Matrix } from "../../../definitions";
 import { areMatricesEqual } from "./areMatricesEqual";
 
 describe("areMatricesEqual", () => {

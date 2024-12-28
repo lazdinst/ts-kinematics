@@ -1,3 +1,4 @@
-export { degreesToRadians } from "./degreesToRadians";
-export { radiansToDegrees } from "./radiansToDegrees";
-export { areMatricesEqual } from "./areMatricesEqual";
+export { degreesToRadians } from "./math/degreesToRadians";
+export { radiansToDegrees } from "./math/radiansToDegrees";
+export { areMatricesEqual } from "./matrices/areMatricesEqual";
+export { rotateMatrixAroundAxis } from "./matrices/rotateMatrixAroundAxis";
