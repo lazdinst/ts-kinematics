@@ -1,3 +1,4 @@
+import { roundToPrecision } from "../roundToPrecision";
 /**
  * Converts degrees to radians.
  *
@@ -5,7 +6,7 @@
  * @returns {number} - The angle in radians.
  */
 export const degreesToRadians = (deg: number): number => {
-  return (deg / 180) * Math.PI;
+  return roundToPrecision((deg / 180) * Math.PI);
 };
 
 export default degreesToRadians;
