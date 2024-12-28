@@ -1,5 +1,6 @@
 import { Matrix } from "../../../definitions";
-import { normalizeMatrixZeros } from "../normalizeMatrixZeros";
+import { mapMatrix } from "../mapMatrix";
+import { normalizeAndRoundValue } from "../../math";
 
 /**
  * Computes the Z-X-Z Euler rotation matrix.
@@ -38,5 +39,5 @@ export const eulerZXZRotation = (
     [sinBeta * sinGamma, sinBeta * cosGamma, cosBeta],
   ];
 
-  return normalizeMatrixZeros(rotationMatrix);
+  return mapMatrix(rotationMatrix, (value) => normalizeAndRoundValue(value));
 };

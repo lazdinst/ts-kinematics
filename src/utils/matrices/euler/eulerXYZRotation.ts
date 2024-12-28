@@ -1,5 +1,6 @@
 import { Matrix } from "../../../definitions";
-import { normalizeMatrixZeros } from "../normalizeMatrixZeros";
+import { mapMatrix } from "../mapMatrix";
+import { normalizeAndRoundValue } from "../../math";
 
 /**
  * Computes the X-Y-Z Euler rotation matrix (Yaw, Pitch, Roll).
@@ -38,5 +39,5 @@ export const eulerXYZRotation = (
     [-sinPitch, cosPitch * sinRoll, cosPitch * cosRoll],
   ];
 
-  return normalizeMatrixZeros(rotationMatrix);
+  return mapMatrix(rotationMatrix, (value) => normalizeAndRoundValue(value));
 };
