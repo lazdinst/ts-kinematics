@@ -1,0 +1,1 @@
+export { mapMatrix } from "./mapMatrix";

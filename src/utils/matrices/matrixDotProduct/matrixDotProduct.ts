@@ -1,5 +1,5 @@
-import { Matrix } from "../definitions";
-import { roundToPrecision } from "./roundToPrecision";
+import { Matrix } from "../../../definitions";
+import { roundToPrecision } from "../../math/roundToPrecision/roundToPrecision";
 
 /**
  * Computes the dot product of two matrices.

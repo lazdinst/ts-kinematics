@@ -1,5 +1,5 @@
 import { Matrix } from "../../../definitions";
-import { matrixDotProduct } from "../../matrixDotProduct";
+import { matrixDotProduct } from "../matrixDotProduct";
 
 /**
  * Rotates a matrix around the specified axis by a given angle.
