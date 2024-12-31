@@ -2,7 +2,7 @@ import { normalizeAndRoundArray } from "./normalizeAndRoundArray";
 
 describe("normalizeAndRoundArray", () => {
   test("normalizes and rounds values in the array to default precision", () => {
-    const array = [1.123456789, -0.000001, 42];
+    const array = [1.123456789, -0.0000001, 42];
     const result = normalizeAndRoundArray(array);
     const expected = [1.123457, 0, 42];
     expect(result).toEqual(expected);

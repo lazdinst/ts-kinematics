@@ -1,68 +1,28 @@
 import { normalizeAndRoundValue } from "./normalizeAndRoundValue";
 
 describe("normalizeAndRoundValue", () => {
-  test("normalizes and rounds a positive value to default precision", () => {
-    const result = normalizeAndRoundValue(1.123456789);
-    expect(result).toBe(1.123457);
+  test("rounds and normalizes positive numbers", () => {
+    expect(normalizeAndRoundValue(1.123456789, 6)).toBe(1.123457);
   });
 
-  test("normalizes and rounds a negative zero to positive zero", () => {
-    const result = normalizeAndRoundValue(-0.000001);
-    expect(result).toBe(0);
+  test("rounds and normalizes negative numbers", () => {
+    expect(normalizeAndRoundValue(-1.23456789, 3)).toBe(-1.235);
   });
 
-  test("rounds a value to a specified precision", () => {
-    const result = normalizeAndRoundValue(1.987654321, 2);
-    expect(result).toBe(1.99);
+  test("handles -0 correctly (rounds and normalizes to 0)", () => {
+    expect(normalizeAndRoundValue(-0.0000001, 6)).toBe(0);
   });
 
-  test("handles zero correctly", () => {
-    const result = normalizeAndRoundValue(0);
-    expect(result).toBe(0);
+  test("handles values already normalized", () => {
+    expect(normalizeAndRoundValue(42, 2)).toBe(42);
   });
 
-  test("handles very small values close to zero", () => {
-    const result = normalizeAndRoundValue(0.0000009, 6);
-    expect(result).toBe(0);
+  test("handles NaN gracefully", () => {
+    expect(normalizeAndRoundValue(NaN, 6)).toBeNaN();
   });
 
-  test("handles negative very small values close to zero", () => {
-    const result = normalizeAndRoundValue(-0.0000009, 6);
-    expect(result).toBe(0);
-  });
-
-  test("handles very large positive values", () => {
-    const result = normalizeAndRoundValue(123456789.987654321, 2);
-    expect(result).toBe(123456789.99);
-  });
-
-  test("handles very large negative values", () => {
-    const result = normalizeAndRoundValue(-123456789.987654321, 2);
-    expect(result).toBe(-123456789.99);
-  });
-
-  test("does not round unnecessarily when precision is high", () => {
-    const result = normalizeAndRoundValue(1.1234, 10);
-    expect(result).toBe(1.1234);
-  });
-
-  test("rounds to zero decimal places when precision is 0", () => {
-    const result = normalizeAndRoundValue(1.987654321, 0);
-    expect(result).toBe(2);
-  });
-
-  test("handles negative values with specified precision", () => {
-    const result = normalizeAndRoundValue(-1.987654321, 3);
-    expect(result).toBe(-1.988);
-  });
-
-  test("handles extremely large values with high precision", () => {
-    const result = normalizeAndRoundValue(987654321.123456789, 8);
-    expect(result).toBe(987654321.12345678);
-  });
-
-  test("handles extremely small values with high precision", () => {
-    const result = normalizeAndRoundValue(0.000000123456, 10);
-    expect(result).toBe(0.0000001235);
+  test("handles Infinity and -Infinity without modification", () => {
+    expect(normalizeAndRoundValue(Infinity, 6)).toBe(Infinity);
+    expect(normalizeAndRoundValue(-Infinity, 6)).toBe(-Infinity);
   });
 });

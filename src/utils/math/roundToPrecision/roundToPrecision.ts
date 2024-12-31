@@ -15,14 +15,16 @@ export const roundToPrecision = (
   value: number,
   decimals: number = 6
 ): number => {
-  const factor = Math.pow(10, decimals); // 10^decimals
-  const roundedValue = Math.round(value * factor) / factor;
-
-  // Treat very small numbers close to zero as zero
-  if (Math.abs(roundedValue) < Number.EPSILON) {
-    return 0; // Explicitly return zero for values close to zero
+  if (typeof value !== "number" || typeof decimals !== "number") {
+    throw new TypeError("Both value and decimals must be numbers");
   }
 
+  const factor = Math.pow(10, decimals); // 10^decimals
+  const threshold = 1 / factor;
+
+  // Treat very small numbers as zero
+  const adjustedValue = Math.abs(value) < threshold ? 0 : value;
+  const roundedValue = Math.round(adjustedValue * factor) / factor;
   // Normalize using normalizeValue
   return normalizeValue(roundedValue);
 };
