@@ -20,11 +20,7 @@ export const roundToPrecision = (
   }
 
   const factor = Math.pow(10, decimals); // 10^decimals
-  const threshold = 1 / factor;
-
-  // Treat very small numbers as zero
-  const adjustedValue = Math.abs(value) < threshold ? 0 : value;
-  const roundedValue = Math.round(adjustedValue * factor) / factor;
+  const roundedValue = Math.round(value * factor) / factor;
   // Normalize using normalizeValue
   return normalizeValue(roundedValue);
 };
