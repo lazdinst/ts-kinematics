@@ -1,13 +1,12 @@
 import { buildHomogeneousTable } from "./buildHomogeneousTable";
-import { Matrix } from "../../definitions";
+import { Matrix, DHParameters } from "../../definitions";
 
 describe("buildHomogeneousTable", () => {
   test("computes individual and cumulative matrices for a standard DH table", () => {
-    const dhTable: [number, number, number, number][] = [
-      [Math.PI / 2, 0, 2, 3],
-      [Math.PI / 4, Math.PI / 6, 1, 4],
+    const dhTable: DHParameters[] = [
+      { theta: Math.PI / 2, alpha: 0, r: 2, d: 3 },
+      { theta: Math.PI / 4, alpha: Math.PI / 6, r: 1, d: 4 },
     ];
-
     const result = buildHomogeneousTable(dhTable);
 
     const expectedIndividual: Matrix[] = [
@@ -18,9 +17,9 @@ describe("buildHomogeneousTable", () => {
         [0, 0, 0, 1],
       ],
       [
-        [0.707107, -0.353553, 0.612372, 0.707107],
-        [0.707107, 0.353553, -0.612372, 0.707107],
-        [0, 0.866025, 0.5, 4],
+        [0.707107, -0.612372, 0.353553, 0.707107],
+        [0.707107, 0.612372, -0.353553, 0.707107],
+        [0, 0.5, 0.866025, 4],
         [0, 0, 0, 1],
       ],
     ];
@@ -43,8 +42,8 @@ describe("buildHomogeneousTable", () => {
   });
 
   test("handles a single row in the DH table", () => {
-    const dhTable: [number, number, number, number][] = [
-      [0, Math.PI / 2, 1, 1],
+    const dhTable: DHParameters[] = [
+      { theta: 0, alpha: Math.PI / 2, r: 1, d: 1 },
     ];
 
     const result = buildHomogeneousTable(dhTable);
@@ -65,7 +64,7 @@ describe("buildHomogeneousTable", () => {
   });
 
   test("handles zero angles and distances", () => {
-    const dhTable: [number, number, number, number][] = [[0, 0, 0, 0]];
+    const dhTable: DHParameters[] = [{ theta: 0, alpha: 0, r: 0, d: 0 }];
 
     const result = buildHomogeneousTable(dhTable);
 

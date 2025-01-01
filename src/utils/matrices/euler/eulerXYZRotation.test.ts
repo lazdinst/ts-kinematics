@@ -1,5 +1,6 @@
 import { eulerXYZRotation } from "./eulerXYZRotation";
-import { normalizeMatrixZeros } from "../normalizeMatrixZeros";
+import { mapMatrix } from "../mapMatrix";
+import { normalizeAndRoundValue } from "../../math/normalizeAndRoundValue";
 
 describe("eulerXYZRotation", () => {
   test("calculates correct X-Y-Z rotation matrix for given angles", () => {
@@ -9,7 +10,7 @@ describe("eulerXYZRotation", () => {
 
     const result = eulerXYZRotation(yaw, pitch, roll);
 
-    const expected = normalizeMatrixZeros([
+    const expected = [
       [
         Math.cos(yaw) * Math.cos(pitch),
         Math.cos(yaw) * Math.sin(pitch) * Math.sin(roll) -
@@ -29,19 +30,23 @@ describe("eulerXYZRotation", () => {
         Math.cos(pitch) * Math.sin(roll),
         Math.cos(pitch) * Math.cos(roll),
       ],
-    ]);
+    ];
 
-    expect(result).toEqual(expected);
+    const expectedResult = mapMatrix(expected, (value) =>
+      normalizeAndRoundValue(value)
+    );
+
+    expect(result).toEqual(expectedResult);
   });
 
   test("returns identity matrix when all angles are zero", () => {
     const result = eulerXYZRotation(0, 0, 0);
 
-    const expected = normalizeMatrixZeros([
+    const expected = [
       [1, 0, 0],
       [0, 1, 0],
       [0, 0, 1],
-    ]);
+    ];
 
     expect(result).toEqual(expected);
   });

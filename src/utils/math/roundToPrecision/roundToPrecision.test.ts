@@ -30,7 +30,11 @@ describe("roundToPrecision", () => {
   });
 
   test("handles very small numbers (close to zero)", () => {
-    expect(roundToPrecision(0.0000123456, 5)).toBe(0.00001);
+    expect(roundToPrecision(0.0000123456, 6)).toBe(0.000012);
+  });
+
+  test("handle very small negative numbers (close to zero)", () => {
+    expect(roundToPrecision(-0.0000123456, 6)).toBe(-0.000012);
   });
 
   test("handles very large numbers", () => {
@@ -54,7 +58,9 @@ describe("roundToPrecision", () => {
   });
 
   test("handles rounding negative numbers close to zero", () => {
-    expect(roundToPrecision(-0.0000009, 6)).toBe(-0); // Should round to -0, later normalized if needed
+    const result = roundToPrecision(-0.00000009);
+    expect(result).toBe(0); // NormalizeValue converts -0 to 0
+    expect(Object.is(result, -0)).toBe(false); // Explicitly confirm it's not -0
   });
 
   test("rounds numbers with excessive precision without errors", () => {

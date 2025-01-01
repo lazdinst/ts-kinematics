@@ -1,30 +1,34 @@
 import { buildHomogeneousMatrix } from "../buildHomogeneousMatrix";
 import { matrixDotProduct } from "../../utils";
-import { Matrix } from "../../definitions";
+import { Matrix, DHParameters } from "../../definitions";
 
 /**
- * Builds the homogeneous transformation matrices for a Denavit-Hartenberg table.
+ * Builds the homogeneous transformation matrices for a Denavit-Hartenberg (DH) table.
  *
- * @param {[number, number, number, number][]} dhTable - The DH table, where each row represents:
- *   [θ (rotation around Z), α (rotation around X), r (distance along X), d (distance along Z)].
+ * @param {DHParameters[]} dhTable - The DH table, where each row is an object with the following properties:
+ *   - `theta` (number): The rotation angle around the Z-axis (in radians).
+ *   - `alpha` (number): The rotation angle around the X-axis (in radians).
+ *   - `r` (number): The distance along the X-axis.
+ *   - `d` (number): The distance along the Z-axis.
  * @returns {{
  *   individualTransformationMatrices: Matrix[],
  *   cumulativeTransformationMatrix: Matrix
  * }} - An object containing:
- *   - `individualTransformationMatrices`: The homogeneous transformation matrix for each row of the DH table.
- *   - `cumulativeTransformationMatrix`: The final combined transformation matrix for the entire table.
+ *   - `individualTransformationMatrices`: An array of individual 4x4 homogeneous transformation matrices, one for each row of the DH table.
+ *   - `cumulativeTransformationMatrix`: The final combined 4x4 transformation matrix for the entire table.
  *
  * Example:
  * const dhTable = [
- *   [Math.PI / 2, 0, 2, 3],
- *   [Math.PI / 4, Math.PI / 6, 1, 4]
+ *   { theta: Math.PI / 2, alpha: 0, r: 2, d: 3 },
+ *   { theta: Math.PI / 4, alpha: Math.PI / 6, r: 1, d: 4 },
  * ];
  * const result = buildHomogeneousTable(dhTable);
  * console.log(result.individualTransformationMatrices); // Individual matrices
  * console.log(result.cumulativeTransformationMatrix); // Final combined matrix
  */
+
 export const buildHomogeneousTable = (
-  dhTable: [number, number, number, number][]
+  dhTable: DHParameters[]
 ): {
   individualTransformationMatrices: Matrix[];
   cumulativeTransformationMatrix: Matrix;
@@ -35,6 +39,7 @@ export const buildHomogeneousTable = (
 
   // Step 1: Build individual homogeneous matrices for each row of the DH table
   const individualTransformationMatrices = dhTable.map((row) =>
+    // Each row is a DHParameters object
     buildHomogeneousMatrix(row)
   );
 

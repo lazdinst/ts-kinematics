@@ -1,5 +1,6 @@
 import { eulerZXZRotation } from "./eulerZXZRotation";
-import { normalizeMatrixZeros } from "../normalizeMatrixZeros";
+import { mapMatrix } from "../mapMatrix";
+import { normalizeAndRoundValue } from "../../math/normalizeAndRoundValue";
 
 describe("eulerZXZRotation", () => {
   test("calculates correct Z-X-Z rotation matrix for given angles", () => {
@@ -9,7 +10,7 @@ describe("eulerZXZRotation", () => {
 
     const result = eulerZXZRotation(alpha, beta, gamma);
 
-    const expected = normalizeMatrixZeros([
+    const expected = [
       [
         Math.cos(alpha) * Math.cos(gamma) -
           Math.sin(alpha) * Math.cos(beta) * Math.sin(gamma),
@@ -29,19 +30,23 @@ describe("eulerZXZRotation", () => {
         Math.sin(beta) * Math.cos(gamma),
         Math.cos(beta),
       ],
-    ]);
+    ];
 
-    expect(result).toEqual(expected);
+    const expectedResult = mapMatrix(expected, (value) =>
+      normalizeAndRoundValue(value)
+    );
+
+    expect(result).toEqual(expectedResult);
   });
 
   test("returns identity matrix when all angles are zero", () => {
     const result = eulerZXZRotation(0, 0, 0);
 
-    const expected = normalizeMatrixZeros([
+    const expected = [
       [1, 0, 0],
       [0, 1, 0],
       [0, 0, 1],
-    ]);
+    ];
 
     expect(result).toEqual(expected);
   });
