@@ -1,4 +1,7 @@
-# Add files here to ignore them from prettier formatting
-/dist
-/coverage
-/.nx/cache
+# Ignore node_modules
+node_modules/
+
+# Ignore build and output directories
+dist/
+build/
+out/
