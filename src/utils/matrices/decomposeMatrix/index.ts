@@ -1,0 +1,1 @@
+export { decomposeMatrix } from "./decomposeMatrix";
