@@ -10,6 +10,7 @@ import { Matrix } from "../../../definitions";
  * @param {number} cols - The number of columns to include in the submatrix.
  * @param {number} rows - The number of rows to include in the submatrix.
  * @returns {Matrix} - A new 2D array containing the requested submatrix.
+ * @throws {Error} - If the input matrix is empty or dimensions exceed the matrix size.
  *
  * Example:
  * const matrix = [
@@ -21,6 +22,19 @@ import { Matrix } from "../../../definitions";
  * console.log(submatrix); // [[1, 2], [4, 5]]
  */
 export const subMatrix = (m: Matrix, cols: number, rows: number): Matrix => {
+  // Validate input matrix
+  if (m.length === 0) {
+    throw new Error("Input matrix is empty.");
+  }
+
+  if (rows > m.length) {
+    throw new Error("Requested rows exceed matrix dimensions.");
+  }
+
+  if (cols > m[0].length) {
+    throw new Error("Requested columns exceed matrix dimensions.");
+  }
+
   const submatrix: Matrix = [];
 
   // Loop through the required number of rows

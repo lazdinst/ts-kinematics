@@ -1,0 +1,1 @@
+export { composeDHTableMatrices } from "./composeDHTableMatrices";

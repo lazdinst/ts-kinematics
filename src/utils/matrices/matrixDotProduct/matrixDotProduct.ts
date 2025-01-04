@@ -24,6 +24,11 @@ import { roundToPrecision } from "../../math/roundToPrecision/roundToPrecision";
  * console.log(result); // [[19, 22], [43, 50]]
  */
 export function matrixDotProduct(matrix1: Matrix, matrix2: Matrix): Matrix {
+  // Validate that matrices are not empty
+  if (matrix1.length === 0 || matrix2.length === 0) {
+    return [];
+  }
+
   // Validate that the matrices can be multiplied
   if (matrix1[0].length !== matrix2.length) {
     throw new Error(
