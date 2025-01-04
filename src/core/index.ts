@@ -1,3 +1,3 @@
-export * from "./buildHomogeneousMatrix";
-export * from "./buildHomogeneousTable";
+export * from "./composeDHMatrix";
+export * from "./composeTableMatrices";
 export * from "./forward";

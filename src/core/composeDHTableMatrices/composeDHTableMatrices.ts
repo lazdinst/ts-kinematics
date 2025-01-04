@@ -1,4 +1,4 @@
-import { buildHomogeneousMatrix } from "../buildHomogeneousMatrix";
+import { composeDHMatrix } from "../composeDHMatrix";
 import { matrixDotProduct } from "../../utils";
 import { Matrix, DHParameters } from "../../definitions";
 
@@ -22,12 +22,12 @@ import { Matrix, DHParameters } from "../../definitions";
  *   { theta: Math.PI / 2, alpha: 0, r: 2, d: 3 },
  *   { theta: Math.PI / 4, alpha: Math.PI / 6, r: 1, d: 4 },
  * ];
- * const result = buildHomogeneousTable(dhTable);
+ * const result = composeDHTableMatrices(dhTable);
  * console.log(result.individualTransformationMatrices); // Individual matrices
  * console.log(result.cumulativeTransformationMatrix); // Final combined matrix
  */
 
-export const buildHomogeneousTable = (
+export const composeDHTableMatrices = (
   dhTable: DHParameters[]
 ): {
   individualTransformationMatrices: Matrix[];
@@ -40,7 +40,7 @@ export const buildHomogeneousTable = (
   // Step 1: Build individual homogeneous matrices for each row of the DH table
   const individualTransformationMatrices = dhTable.map((row) =>
     // Each row is a DHParameters object
-    buildHomogeneousMatrix(row)
+    composeDHMatrix(row)
   );
 
   // Step 2: Compute the cumulative transformation matrix

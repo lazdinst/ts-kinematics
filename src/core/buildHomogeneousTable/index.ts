@@ -1,1 +1,0 @@
-export { buildHomogeneousTable } from "./buildHomogeneousTable";

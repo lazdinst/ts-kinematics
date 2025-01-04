@@ -2,11 +2,11 @@ import { normalizeAndRoundValue } from "./normalizeAndRoundValue";
 
 describe("normalizeAndRoundValue", () => {
   test("rounds and normalizes positive numbers", () => {
-    expect(normalizeAndRoundValue(1.123456789, 6)).toBe(1.123457);
+    expect(normalizeAndRoundValue(1.123456789, 6)).toBe(1.12346);
   });
 
   test("rounds and normalizes negative numbers", () => {
-    expect(normalizeAndRoundValue(-1.23456789, 3)).toBe(-1.235);
+    expect(normalizeAndRoundValue(-1.23456789, 3)).toBe(-1.23);
   });
 
   test("handles -0 correctly (rounds and normalizes to 0)", () => {

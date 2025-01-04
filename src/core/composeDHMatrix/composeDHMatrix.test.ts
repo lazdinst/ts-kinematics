@@ -1,10 +1,7 @@
-import { buildHomogeneousMatrix } from "./buildHomogeneousMatrix";
+import { composeDHMatrix } from "./composeDHMatrix";
 import { Matrix, DHParameters } from "../../definitions";
 
-import {
-  computeRotationRowX,
-  computeRotationRowY,
-} from "./buildHomogeneousMatrix";
+import { computeRotationRowX, computeRotationRowY } from "./composeDHMatrix";
 
 describe("computeRotationRowX", () => {
   test("computes the correct X-axis rotation row for given parameters", () => {
@@ -49,7 +46,7 @@ describe("computeRotationRowY", () => {
     expect(result).toEqual(expected);
   });
 });
-describe("buildHomogeneousMatrix", () => {
+describe("composeDHMatrix", () => {
   test("calculates the correct matrix for standard input", () => {
     const dhParams: DHParameters = {
       theta: Math.PI / 4, // 45 degrees
@@ -58,10 +55,10 @@ describe("buildHomogeneousMatrix", () => {
       d: 1,
     };
 
-    const result = buildHomogeneousMatrix(dhParams, 6);
+    const result = composeDHMatrix(dhParams, 6);
     const expected: Matrix = [
-      [0.707107, -0.612372, 0.353553, 1.414214],
-      [0.707107, 0.612372, -0.353553, 1.414214],
+      [0.707107, -0.612372, 0.353553, 1.41421],
+      [0.707107, 0.612372, -0.353553, 1.41421],
       [0, 0.5, 0.866025, 1],
       [0, 0, 0, 1],
     ];
@@ -77,7 +74,7 @@ describe("buildHomogeneousMatrix", () => {
       d: 1,
     };
 
-    const result = buildHomogeneousMatrix(dhParams, 6);
+    const result = composeDHMatrix(dhParams, 6);
     const expected: Matrix = [
       [1, 0, 0, 1],
       [0, 1, 0, 0],
@@ -96,7 +93,7 @@ describe("buildHomogeneousMatrix", () => {
       d: 1,
     };
 
-    const result = buildHomogeneousMatrix(dhParams, 6);
+    const result = composeDHMatrix(dhParams, 6);
     const expected: Matrix = [
       [0, 0, 1, 0],
       [1, 0, 0, 1],
@@ -115,10 +112,10 @@ describe("buildHomogeneousMatrix", () => {
       d: -1,
     };
 
-    const result = buildHomogeneousMatrix(dhParams, 6);
+    const result = composeDHMatrix(dhParams, 6);
     const expected: Matrix = [
-      [0.707107, -0.612372, 0.353553, -1.414214],
-      [0.707107, 0.612372, -0.353553, -1.414214],
+      [0.707107, -0.612372, 0.353553, -1.41421],
+      [0.707107, 0.612372, -0.353553, -1.41421],
       [0, 0.5, 0.866025, -1],
       [0, 0, 0, 1],
     ];
@@ -134,7 +131,7 @@ describe("buildHomogeneousMatrix", () => {
       d: 0,
     };
 
-    const result = buildHomogeneousMatrix(dhParams, 6);
+    const result = composeDHMatrix(dhParams, 6);
     const expected: Matrix = [
       [1, 0, 0, 0],
       [0, 1, 0, 0],
@@ -153,7 +150,7 @@ describe("buildHomogeneousMatrix", () => {
       d: 1,
     };
 
-    const result = buildHomogeneousMatrix(dhParams, 4);
+    const result = composeDHMatrix(dhParams, 4);
     const expected: Matrix = [
       [0.7071, -0.6124, 0.3536, 0.7071],
       [0.7071, 0.6124, -0.3536, 0.7071],

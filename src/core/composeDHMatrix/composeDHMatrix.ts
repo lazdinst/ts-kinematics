@@ -92,7 +92,7 @@ export const computeRotationRowZ = (alpha: number, d: number): MatrixRow => [
  * @param {number} [precision=6] - The number of decimal places to round to (default is 6).
  * @returns {Matrix} - The 4x4 homogeneous transformation matrix for the given parameters.
  */
-export const buildHomogeneousMatrix = (
+export const composeDHMatrix = (
   { theta, alpha, r, d }: DHParameters,
   precision: number = 6
 ): Matrix => {
