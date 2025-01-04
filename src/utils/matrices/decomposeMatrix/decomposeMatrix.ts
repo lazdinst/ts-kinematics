@@ -1,4 +1,5 @@
 import { Matrix, Vector } from "../../../definitions";
+import { roundToPrecision } from "../../math";
 /**
  * Decomposes a square matrix into its LU (Lower and Upper triangular) form using Crout's method.
  * This function is a key component in solving linear systems, computing matrix determinants,
@@ -72,7 +73,6 @@ export function decomposeMatrix(
 
     // Check if the matrix is singular
     if (max === 0) {
-      console.error("Matrix is singular and cannot be decomposed.");
       return 0; // Return 0 to indicate a singular matrix
     }
 
@@ -83,14 +83,15 @@ export function decomposeMatrix(
       parity = -parity; // Flip parity to reflect the row swap
     }
 
-    const diagonalElement = luMatrix[j][j];
-    if (diagonalElement !== 0) {
+    const xjj = luMatrix[j][j];
+    if (xjj !== 0) {
       // Perform factorization for the lower and upper matrices
       for (let i = j + 1; i < n; i++) {
-        const xij = luMatrix[i][j] / diagonalElement;
-        luMatrix[i][j] = xij; // Store the multiplier in L
+        const xij = luMatrix[i][j] / xjj;
+        luMatrix[i][j] = roundToPrecision(xij);
         for (let k = j + 1; k < n; k++) {
           luMatrix[i][k] -= xij * luMatrix[j][k]; // Update U
+          luMatrix[i][k] = roundToPrecision(luMatrix[i][k]); // Normalize result
         }
       }
     }
