@@ -1,6 +1,6 @@
 import { Matrix } from "../../../definitions";
 import { mapMatrix } from "../mapMatrix";
-import { normalizeAndRoundValue } from "../../math";
+import { roundToPrecision } from "../../math";
 
 /**
  * Computes the Z-X-Z Euler rotation matrix.
@@ -39,5 +39,5 @@ export const eulerZXZRotation = (
     [sinBeta * sinGamma, sinBeta * cosGamma, cosBeta],
   ];
 
-  return mapMatrix(rotationMatrix, (value) => normalizeAndRoundValue(value));
+  return mapMatrix(rotationMatrix, (value) => roundToPrecision(value));
 };

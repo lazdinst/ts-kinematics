@@ -1,3 +1,6 @@
+// Deprecated: This function is deprecated and will be removed in the next major version.
+// rountToPrecision already normalizes the value, so there is no need to call normalizeAndRoundValue.
+
 import { normalizeValue } from "../normalizeValue";
 import { roundToPrecision } from "../roundToPrecision";
 
