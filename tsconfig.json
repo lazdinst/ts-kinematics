@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "declaration": true,
-    "outDir": "./dist",
-    "strict": true
+    "target": "ES2020", // Modern JavaScript syntax
+    "module": "ESNext", // Output ES module format
+    "declaration": true, // Generate type declarations
+    "emitDeclarationOnly": false, // Emit both JS and declaration files
+    "outDir": "./dist", // Output directory
+    "strict": true, // Enable strict type checking
+    "esModuleInterop": true, // Allow CommonJS interop
+    "skipLibCheck": true, // Skip type checking for dependencies
+    "moduleResolution": "Node" // Resolve modules in Node.js style
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src"], // Include source files
+  "exclude": ["node_modules", "dist"] // Exclude build and dependency directories
 }
