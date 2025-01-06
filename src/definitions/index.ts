@@ -1,4 +1,5 @@
 export type Matrix = number[][];
+export type Vector = number[];
 export type MatrixRow = number[];
 
 export interface DHParameters {

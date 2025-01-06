@@ -4,3 +4,8 @@ export { matrixDotProduct } from "./matrixDotProduct";
 export { mapMatrix } from "./mapMatrix";
 export { eulerXYZRotation, eulerZXZRotation } from "./euler";
 export { areMatricesEqual } from "./areMatricesEqual";
+export { createMatrix } from "./createMatrix";
+export { createVector } from "./createVector";
+export { decomposeMatrix } from "./decomposeMatrix";
+export { solveLinearSystem } from "./solveLinearSystem";
+export { inverseMatrix } from "./inverseMatrix";
