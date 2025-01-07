@@ -84,7 +84,52 @@ export const inverseKinematics = ({
     },
   ];
 
-  return [];
+  const { cumulativeTransformationMatrix } =
+    composeDHTableMatrices(dhParameters);
+
+  const r0_3 = subMatrix(cumulativeTransformationMatrix, 3, 3);
+  const inv_r0_3 = inverseMatrix(r0_3);
+  const r3_6 = matrixDotProduct(inv_r0_3, r0_6);
+
+  const c = r3_6[0][2];
+  const f = r3_6[1][2];
+  const i = r3_6[2][2];
+  const g = r3_6[2][0];
+  const h = r3_6[2][1];
+
+  const z_projection_x = r3_6[0][2];
+  const z_projection_y = r3_6[1][2];
+  const z_projection_z = r3_6[2][2];
+  const x_projection_z = r3_6[2][0];
+  const y_projection_z = r3_6[2][1];
+
+  let theta4 = calculateTheta4(z_projection_y, z_projection_x);
+  let theta5 = calculateTheta5(z_projection_x, z_projection_y, z_projection_z);
+  let theta6 = calculateTheta6(y_projection_z, x_projection_z);
+
+  if (flip) {
+    // 180 - 157 = 23
+    const diff4 = Math.PI - Math.abs(theta4);
+    const diff6 = Math.PI - Math.abs(theta6);
+
+    // Flip reciprical of 4 and 6 && flip 5
+    if (Math.abs(theta4) > Math.PI / 2) {
+      theta4 = theta4 < 0 ? diff4 : -diff4;
+      theta5 = theta5 * -1;
+      // Only flip 6 when the diffence of theta4 is less than 180 degrees ( also special check for about zero )
+      if (diff4 < Math.PI / 2 && Math.round(diff4 * 100) / 100 != 0) {
+        theta6 = theta6 < 0 ? diff6 : -diff6;
+      }
+      // Special case for 180
+      if (Math.abs(theta6) === roundToPrecision(Math.PI)) {
+        theta6 = 0;
+      }
+    }
+  }
+
+  return [theta1, theta2, theta3, theta4, theta5, theta6].map((theta) =>
+    roundToPrecision(theta)
+  );
 };
 
 /**
@@ -157,3 +202,44 @@ const calculateWristCenter = (
 
   return { x0_3, y0_3, z0_3 };
 };
+
+/**
+ * Calculates theta4 based on the projection of the Z-axis of frame 3 onto the X-Y plane.
+ *
+ * @param {number} z_projection_y - The Y component of the Z-axis projection in frame 3 (r3_6[1][2]).
+ * @param {number} z_projection_x - The X component of the Z-axis projection in frame 3 (r3_6[0][2]).
+ * @returns {number} theta4 - The computed joint angle for theta4.
+ */
+function calculateTheta4(z_projection_y: number, z_projection_x: number) {
+  return roundToPrecision(Math.atan2(z_projection_y, z_projection_x));
+}
+
+/**
+ * Calculates theta5 based on the tilt of the Z-axis in frame 3 relative to the global frame.
+ *
+ * @param {number} z_projection_x - The X component of the Z-axis projection in frame 3 (r3_6[0][2]).
+ * @param {number} z_projection_y - The Y component of the Z-axis projection in frame 3 (r3_6[1][2]).
+ * @param {number} z_projection_z - The Z component of the Z-axis projection in frame 3 (r3_6[2][2]).
+ * @returns {number} theta5 - The computed joint angle for theta5.
+ */
+function calculateTheta5(
+  z_projection_x: number,
+  z_projection_y: number,
+  z_projection_z: number
+) {
+  const magnitude = Math.sqrt(
+    Math.pow(z_projection_x, 2) + Math.pow(z_projection_y, 2)
+  );
+  return roundToPrecision(-Math.atan2(magnitude, z_projection_z));
+}
+
+/**
+ * Calculates theta6 based on the projection of the X and Y axes of frame 3 onto the Z plane.
+ *
+ * @param {number} y_projection_z - The Y component of the X-axis projection in frame 3 (r3_6[2][1]).
+ * @param {number} x_projection_z - The X component of the X-axis projection in frame 3 (r3_6[2][0]).
+ * @returns {number} theta6 - The computed joint angle for theta6.
+ */
+function calculateTheta6(y_projection_z: number, x_projection_z: number) {
+  return roundToPrecision(Math.atan2(-y_projection_z, x_projection_z));
+}
