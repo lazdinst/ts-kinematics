@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "test": "jest",
-    "build": "npm run test && tsc"
+    "build": "npm run test && tsc",
+    "publish": "npm run build && npm publish"
   },
   "keywords": [
     "kinematics",
