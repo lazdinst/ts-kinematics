@@ -91,12 +91,6 @@ export const inverseKinematics = ({
   const inv_r0_3 = inverseMatrix(r0_3);
   const r3_6 = matrixDotProduct(inv_r0_3, r0_6);
 
-  const c = r3_6[0][2];
-  const f = r3_6[1][2];
-  const i = r3_6[2][2];
-  const g = r3_6[2][0];
-  const h = r3_6[2][1];
-
   const z_projection_x = r3_6[0][2];
   const z_projection_y = r3_6[1][2];
   const z_projection_z = r3_6[2][2];
@@ -107,25 +101,10 @@ export const inverseKinematics = ({
   let theta5 = calculateTheta5(z_projection_x, z_projection_y, z_projection_z);
   let theta6 = calculateTheta6(y_projection_z, x_projection_z);
 
-  if (flip) {
-    // 180 - 157 = 23
-    const diff4 = Math.PI - Math.abs(theta4);
-    const diff6 = Math.PI - Math.abs(theta6);
-
-    // Flip reciprical of 4 and 6 && flip 5
-    if (Math.abs(theta4) > Math.PI / 2) {
-      theta4 = theta4 < 0 ? diff4 : -diff4;
-      theta5 = theta5 * -1;
-      // Only flip 6 when the diffence of theta4 is less than 180 degrees ( also special check for about zero )
-      if (diff4 < Math.PI / 2 && Math.round(diff4 * 100) / 100 != 0) {
-        theta6 = theta6 < 0 ? diff6 : -diff6;
-      }
-      // Special case for 180
-      if (Math.abs(theta6) === roundToPrecision(Math.PI)) {
-        theta6 = 0;
-      }
-    }
-  }
+  const adjustedAngles = applyFlipAdjustments(flip, theta4, theta5, theta6);
+  theta4 = adjustedAngles.theta4;
+  theta5 = adjustedAngles.theta5;
+  theta6 = adjustedAngles.theta6;
 
   return [theta1, theta2, theta3, theta4, theta5, theta6].map((theta) =>
     roundToPrecision(theta)
@@ -242,4 +221,47 @@ function calculateTheta5(
  */
 function calculateTheta6(y_projection_z: number, x_projection_z: number) {
   return roundToPrecision(Math.atan2(-y_projection_z, x_projection_z));
+}
+
+/**
+ * Adjusts theta4, theta5, and theta6 based on the flip configuration.
+ * Ensures the robot can handle multiple valid configurations for the same end-effector pose.
+ *
+ * @param {boolean} flip - Whether to apply flip adjustments.
+ * @param {number} theta4 - Initial theta4 angle in radians.
+ * @param {number} theta5 - Initial theta5 angle in radians.
+ * @param {number} theta6 - Initial theta6 angle in radians.
+ * @returns {Object} - Adjusted angles { theta4, theta5, theta6 }.
+ */
+function applyFlipAdjustments(
+  flip: boolean,
+  theta4: number,
+  theta5: number,
+  theta6: number
+) {
+  if (!flip) return { theta4, theta5, theta6 };
+
+  const diffTheta4 = Math.PI - Math.abs(theta4);
+  const diffTheta6 = Math.PI - Math.abs(theta6);
+
+  // Flip reciprocal of theta4 and theta6, and invert theta5
+  if (Math.abs(theta4) > Math.PI / 2) {
+    theta4 = theta4 < 0 ? diffTheta4 : -diffTheta4;
+    theta5 = -theta5;
+
+    // Flip theta6 if theta4's difference is less than 90 degrees
+    if (diffTheta4 < Math.PI / 2 && Math.abs(diffTheta4) > Number.EPSILON) {
+      theta6 = theta6 < 0 ? diffTheta6 : -diffTheta6;
+    }
+
+    // Special case: Reset theta6 if it equals ±π
+    if (
+      Math.abs(theta6 - Math.PI) < Number.EPSILON ||
+      Math.abs(theta6 + Math.PI) < Number.EPSILON
+    ) {
+      theta6 = 0;
+    }
+  }
+
+  return { theta4, theta5, theta6 };
 }
