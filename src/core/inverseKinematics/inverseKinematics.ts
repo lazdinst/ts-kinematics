@@ -91,12 +91,6 @@ export const inverseKinematics = ({
   const inv_r0_3 = inverseMatrix(r0_3);
   const r3_6 = matrixDotProduct(inv_r0_3, r0_6);
 
-  const c = r3_6[0][2];
-  const f = r3_6[1][2];
-  const i = r3_6[2][2];
-  const g = r3_6[2][0];
-  const h = r3_6[2][1];
-
   const z_projection_x = r3_6[0][2];
   const z_projection_y = r3_6[1][2];
   const z_projection_z = r3_6[2][2];
