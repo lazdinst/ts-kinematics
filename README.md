@@ -2,30 +2,34 @@
 
 A TypeScript library for calculating forward and inverse kinematics for 6-DOF robotic arms. This library provides:
 
-- **Forward Kinematics**: Given joint angles and robot parameters, compute the end-effector’s pose (position & orientation).  
+- **Forward Kinematics**: Given joint angles and robot parameters, compute the end-effector’s pose (position & orientation).
 - **Inverse Kinematics**: Given the end-effector’s desired pose and robot parameters, compute the required joint angles.
 
 ## Table of Contents
 
-- [Features](#features)  
-- [Installation](#installation)  
-- [Usage](#usage)  
-  - [Forward Kinematics](#forward-kinematics)  
-  - [Inverse Kinematics](#inverse-kinematics)  
-- [API Reference](#api-reference)  
-- [Example](#example)  
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Forward Kinematics](#forward-kinematics)
+  - [Inverse Kinematics](#inverse-kinematics)
+- [API Reference](#api-reference)
+- [Example](#example)
 - [License](#license)
 
 ---
 
 ## Features
 
-- **Easy-to-use** TypeScript functions for forward and inverse kinematics  
-- **Configurable** robotic link parameters for various 6-DOF arms  
-- **Modular** functions that can be used independently or combined  
-- **Well-documented** code with JSDoc annotations  
+- **Easy-to-use** TypeScript functions for forward and inverse kinematics
+- **Configurable** robotic link parameters for various 6-DOF arms
+- **Modular** functions that can be used independently or combined
+- **Well-documented** code with JSDoc annotations
 
 ---
+
+## NPM
+
+`https://www.npmjs.com/package/ts-kinematics`
 
 ## Installation
 
@@ -39,12 +43,12 @@ Or if you use Yarn:
 
 ## Usage
 
-Below are quick examples showing how to use \`forward\` and \`inverseKinematics\`.  
+Below are quick examples showing how to use `forward` and `inverseKinematics`.  
 Make sure to import the functions and the necessary types from the library.
 
 ### Forward Kinematics
 
-\`\`\`ts
+```ts
 import { forward } from "ts-kinematics";
 
 // Example joint angles in radians
@@ -75,11 +79,11 @@ const transformationMatrix = forward({
 });
 
 console.log("Forward Kinematics Result:", transformationMatrix);
-\`\`\`
+```
 
 ### Inverse Kinematics
 
-\`\`\`ts
+```ts
 import { inverseKinematics } from "ts-kinematics";
 
 // Desired end-effector position & orientation
@@ -106,7 +110,7 @@ const angles = inverseKinematics({
 });
 
 console.log("Inverse Kinematics Joint Angles:", angles);
-\`\`\`
+```
 
 ---
 
@@ -114,22 +118,26 @@ console.log("Inverse Kinematics Joint Angles:", angles);
 
 ### Functions
 
-1. **forward(args: ForwardKinematicsArgs): Matrix**  
+1. **forward(args: ForwardKinematicsArgs): Matrix**
+
    - Computes the 4x4 transformation matrix for the end-effector.
 
-2. **inverseKinematics(args: InverseKinematicsProps): number[]**  
+2. **inverseKinematics(args: InverseKinematicsProps): number[]**
+
    - Computes the array of joint angles [θ1, θ2, θ3, θ4, θ5, θ6].
 
-3. **inverseKinematics1to3(...)**  
+3. **inverseKinematics1to3(...)**
+
    - Helper function to compute joints 1–3.
 
-4. **matrixDotProduct**, **subMatrix**, **inverseMatrix**, **eulerZXZRotation**  
+4. **matrixDotProduct**, **subMatrix**, **inverseMatrix**, **eulerZXZRotation**
    - Utility matrix operations.
 
 ### Types
 
-**ForwardKinematicsArgs**  
-\`\`\`ts
+**ForwardKinematicsArgs**
+
+```ts
 interface ForwardKinematicsArgs {
   theta1: number;
   theta2: number;
@@ -139,10 +147,11 @@ interface ForwardKinematicsArgs {
   theta6: number;
   config: RobotConfig;
 }
-\`\`\`
+```
 
-**InverseKinematicsProps**  
-\`\`\`ts
+**InverseKinematicsProps**
+
+```ts
 interface InverseKinematicsProps {
   x: number;
   y: number;
@@ -152,10 +161,11 @@ interface InverseKinematicsProps {
   r3: number;
   config: RobotConfig;
 }
-\`\`\`
+```
 
-**RobotConfig**  
-\`\`\`ts
+**RobotConfig**
+
+```ts
 interface RobotConfig {
   base?: number;
   v1: number;
@@ -169,12 +179,13 @@ interface RobotConfig {
   adjustments?: { t1?: number };
   flip?: boolean;
 }
-\`\`\`
+```
 
-**Matrix**  
-\`\`\`ts
+**Matrix**
+
+```ts
 type Matrix = number[][];
-\`\`\`
+```
 
 ---
 
@@ -182,7 +193,7 @@ type Matrix = number[][];
 
 A more complete example to illustrate usage:
 
-\`\`\`ts
+```ts
 import { forward, inverseKinematics } from "ts-kinematics";
 
 // Define joint angles
@@ -222,7 +233,7 @@ const ikResult = inverseKinematics({
   config,
 });
 console.log("IK Joint Angles:", ikResult);
-\`\`\`
+```
 
 ---
 
